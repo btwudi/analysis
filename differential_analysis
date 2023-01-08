@@ -1,0 +1,12 @@
+diff_exp <- function(matrix1, matrix2) {
+        pv <- vector()
+        fc <- vector()
+        for(i in seq_len(nrow(matrix1))) {
+                pv[i] = wilcox.test(matrix1[i, ], matrix2[i, ])$p.value
+                fc[i] = -log2((median(matrix1[i, ]) + 1) / (median(matrix2[i, ]) + 1))
+        }
+        qv = p.adjust(pv, "fdr");
+        de = data.frame(p_value = pv, q_value = qv, fold_change = fc)
+        rownames(de) = rownames(matrix1)
+        return(de)
+}
